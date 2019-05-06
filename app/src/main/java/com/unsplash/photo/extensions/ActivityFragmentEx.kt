@@ -75,7 +75,8 @@ fun FragmentActivity.setStatusBarColor(colorAttr: Int = R.attr.colorAccent) {
     window?.statusBarColor = getColorAttr(colorAttr)
 }
 
-fun Fragment.getDrawable(@DrawableRes drawableRes: Int): Drawable? = ContextCompat.getDrawable(requireContext(), drawableRes)
+fun Fragment.getDrawable(@DrawableRes drawableRes: Int): Drawable? =
+    ContextCompat.getDrawable(requireContext(), drawableRes)
 
 fun Context.isConnected(): Boolean {
     val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
