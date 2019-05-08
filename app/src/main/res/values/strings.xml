@@ -3,4 +3,13 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="network_error">Error occurred while communicating to the server</string>
+    <string name="unexpected_error">Unexpected error while requesting API</string>
+    <string name="request_error">Error requesting server, please try again later</string>
+    <string name="failed_login">Sign in failed</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="collections">Collections</string>
+    <string name="notify">Notify</string>
+    <string name="trending_search">Trending searchs: %1$s</string>
 </resources>
