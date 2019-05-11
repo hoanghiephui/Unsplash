@@ -2,25 +2,26 @@ package com.unsplash.photo.model.collection
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity
 data class Urls(
-
+    @PrimaryKey
     @field:SerializedName("small")
-    val small: String? = null,
+    var small: String = "",
 
     @field:SerializedName("thumb")
-    val thumb: String? = null,
+    var thumb: String? = null,
 
     @field:SerializedName("raw")
-    val raw: String? = null,
+    var raw: String? = null,
 
     @field:SerializedName("regular")
-    val regular: String? = null,
+    var regular: String? = null,
 
     @field:SerializedName("full")
-    val full: String? = null
+    var full: String? = null
 ) : Parcelable

@@ -23,6 +23,9 @@ class SplashFragment : BaseFragment() {
         viewModel.data.observeNotNull(viewLifecycleOwner) {
             (requireActivity() as MainActivity).onOpenHome(it)
         }
+        viewModel.networkState.observeNotNull(viewLifecycleOwner) {
+            (requireActivity() as MainActivity).onOpenHome(null)
+        }
         viewModel.loadSplash()
     }
 }

@@ -11,54 +11,54 @@ import kotlinx.android.parcel.Parcelize
 data class User(
 
     @field:SerializedName("total_photos")
-    val totalPhotos: Int? = null,
+    var totalPhotos: Int? = null,
 
     @field:SerializedName("accepted_tos")
-    val acceptedTos: Boolean? = null,
+    var acceptedTos: Boolean? = null,
 
     @field:SerializedName("twitter_username")
-    val twitterUsername: String? = null,
+    var twitterUsername: String? = null,
 
     @field:SerializedName("last_name")
-    val lastName: String? = null,
+    var lastName: String? = null,
 
     @field:SerializedName("bio")
-    val bio: String? = null,
+    var bio: String? = null,
 
     @field:SerializedName("total_likes")
-    val totalLikes: Int? = null,
+    var totalLikes: Int? = null,
 
     @field:SerializedName("portfolio_url")
-    val portfolioUrl: String? = null,
+    var portfolioUrl: String? = null,
 
     @field:SerializedName("profile_image")
-    val profileImage: ProfileImage? = null,
+    var profileImage: ProfileImage? = null,
 
     @field:SerializedName("updated_at")
-    val updatedAt: String? = null,
+    var updatedAt: String? = null,
 
     @field:SerializedName("name")
-    val name: String? = null,
+    var name: String? = null,
 
     @field:SerializedName("location")
-    val location: String? = null,
+    var location: String? = null,
 
     @field:SerializedName("links")
-    val links: Links? = null,
+    var links: Links? = null,
 
     @field:SerializedName("total_collections")
-    val totalCollections: Int? = null,
+    var totalCollections: Int? = null,
 
     @PrimaryKey
     @field:SerializedName("id")
-    val id: String = "",
+    var id: String,
 
     @field:SerializedName("first_name")
-    val firstName: String? = null,
+    var firstName: String? = null,
 
     @field:SerializedName("instagram_username")
-    val instagramUsername: String? = null,
+    var instagramUsername: String? = null,
 
     @field:SerializedName("username")
-    val username: String? = null
+    var username: String? = null
 ) : Parcelable

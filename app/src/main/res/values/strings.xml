@@ -12,4 +12,12 @@
     <string name="collections">Collections</string>
     <string name="notify">Notify</string>
     <string name="trending_search">Trending searchs: %1$s</string>
+    <string name="latest">Latest</string>
+    <string name="oldest">Oldest</string>
+    <string name="popular">Popular</string>
+    <string name="random">Random</string>
+    <string name="retry">Retry</string>
+    <string name="editorial">Editorial</string>
+    <string name="login">Login</string>
+    <string name="welcome">Welcome back.</string>
 </resources>

@@ -23,6 +23,20 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+                android:name=".ui.activitys.LoginActivity"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:screenOrientation="user"
+                android:launchMode="singleTask">
+            <intent-filter>
+                <data
+                        android:scheme="wallsplash"
+                        android:host="unsplash-auth-callback" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

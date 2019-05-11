@@ -1,6 +1,8 @@
 package com.unsplash.photo.di.modules
 
 import com.unsplash.photo.di.scopes.PerFragment
+import com.unsplash.photo.repository.EditorialRepository
+import com.unsplash.photo.usecase.EditorialUseCase
 import com.unsplash.photo.usecase.SplashUseCase
 import dagger.Module
 import dagger.Provides
@@ -12,5 +14,13 @@ class UseCaseModule {
     fun provideNotificationUseCase(
     ): SplashUseCase {
         return SplashUseCase()
+    }
+
+    @PerFragment
+    @Provides
+    fun provideEditorialUseCase(
+        editorialRepository: EditorialRepository
+    ): EditorialUseCase {
+        return EditorialUseCase(editorialRepository)
     }
 }

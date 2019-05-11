@@ -2,6 +2,7 @@ package com.unsplash.photo.di.components
 
 import android.app.Application
 import com.unsplash.photo.UnsplashApp
+import com.unsplash.photo.db.d.UnsplashDatabase
 import com.unsplash.photo.di.modules.*
 import dagger.BindsInstance
 import dagger.Component
@@ -17,7 +18,9 @@ import javax.inject.Singleton
         ActivityBindingModule::class,
         FragmentBindingModule::class,
         AndroidSupportInjectionModule::class,
-        NetworkModule::class]
+        NetworkModule::class,
+        RepositoryModule::class,
+        DatabaseModule::class]
 )
 interface AppComponent : AndroidInjector<DaggerApplication> {
 
@@ -32,10 +35,13 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
         @BindsInstance
         fun networkModule(networkModule: NetworkModule): Builder
 
+        @BindsInstance
+        fun repositoryModule(repositoryModule: RepositoryModule): Builder
+
         fun build(): AppComponent
     }
 
-
+    fun unsplashDatabase(): UnsplashDatabase
     fun inject(app: UnsplashApp)
 
     override fun inject(instance: DaggerApplication)
@@ -45,6 +51,7 @@ interface AppComponent : AndroidInjector<DaggerApplication> {
             .application(app)
             .databaseModule(DatabaseModule())
             .networkModule(NetworkModule())
+            .repositoryModule(RepositoryModule())
             .build()
     }
 }

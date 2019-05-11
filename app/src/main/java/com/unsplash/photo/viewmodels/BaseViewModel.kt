@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import com.unsplash.photo.R
 import com.unsplash.photo.extensions.uiThread
+import com.unsplash.photo.repository.base.BaseRepository
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -15,7 +16,7 @@ import java.io.IOException
 import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 
-abstract class BaseViewModel : ViewModel() {
+abstract class BaseViewModel<out T : BaseRepository> constructor(val repository: T) : ViewModel() {
     @Inject
     lateinit var gson: Gson
     val error = MutableLiveData<AppErrors>()
@@ -23,6 +24,10 @@ abstract class BaseViewModel : ViewModel() {
     val logoutProcess = MutableLiveData<Boolean>()
     val counter = MutableLiveData<Int>()
     private val disposable = CompositeDisposable()
+
+    init {
+        repository.compositeDisposable = disposable
+    }
 
     protected fun add(disposable: Disposable) = this.disposable.add(disposable)
 

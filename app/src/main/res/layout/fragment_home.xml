@@ -16,5 +16,8 @@
             android:layout_height="wrap_content"
             android:background="?android:attr/windowBackground"
             android:layout_gravity="bottom"
-            app:menu="@menu/bottom_nav_menu"/>
+            app:itemTextColor="@color/nav_state_list"
+            app:itemIconTint="@color/nav_state_list"
+            app:menu="@menu/bottom_nav_menu"
+            app:layout_behavior="com.unsplash.photo.ui.widget.BottomNavigationBehavior"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

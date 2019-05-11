@@ -1,5 +1,6 @@
 package com.unsplash.photo.di.modules
 
+import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
 import com.google.gson.FieldNamingPolicy
@@ -9,6 +10,10 @@ import com.ihsanbal.logging.Level
 import com.ihsanbal.logging.LoggingInterceptor
 import com.unsplash.photo.BuildConfig
 import com.unsplash.photo.UnsplashApp.Companion.UNSPLASH_API_BASE_URL
+import com.unsplash.photo.UnsplashApp.Companion.UNSPLASH_URL
+import com.unsplash.photo.api.AuthorizeService
+import com.unsplash.photo.api.PhotoService
+import com.unsplash.photo.api.interceptor.NapiInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.ConnectionSpec
@@ -25,6 +30,7 @@ import java.net.InetAddress
 import java.net.Socket
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 import javax.net.ssl.SSLContext
 import javax.net.ssl.SSLSocket
@@ -45,74 +51,90 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideHttpClient(): OkHttpClient = TLSCompactHelper.okHttpClient
+    fun provideHttpClient(sharedPreferences: SharedPreferences): OkHttpClient = OkHttpClient.Builder().apply {
+        connectTimeout(15, TimeUnit.SECONDS)
+            .readTimeout(15, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(NapiInterceptor(sharedPreferences))
+            .addInterceptor(
+                LoggingInterceptor.Builder()
+                    .loggable(BuildConfig.DEBUG)
+                    .tag("LoggingI")
+                    .setLevel(Level.BASIC)
+                    .log(Platform.INFO)
+                    .request("Request")
+                    .response("Response").build()
+            )
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            try {
+                val sc = SSLContext.getInstance("TLSv1.2")
+                sc.init(null, null, null)
+                sslSocketFactory(
+                    TLSCompactHelper.Tls12SocketFactory(sc.socketFactory),
+                    Util.platformTrustManager()
+                )
+
+                val cs = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
+                    .tlsVersions(TlsVersion.TLS_1_2)
+                    .build()
+
+                val specs = ArrayList<ConnectionSpec>()
+                specs.add(cs)
+                specs.add(ConnectionSpec.COMPATIBLE_TLS)
+                specs.add(ConnectionSpec.CLEARTEXT)
+
+                connectionSpecs(specs)
+                    .followRedirects(true)
+                    .followSslRedirects(true)
+                    .retryOnConnectionFailure(true)
+                    .cache(null)
+            } catch (e: Exception) {
+                Log.e("OkHttpTLSCompat", "Error while setting TLS 1.2", e)
+            }
+
+        }
+    }.build()
 
     @Singleton
     @Provides
-    fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    @Named("api")
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(UNSPLASH_API_BASE_URL)
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create(gson))
+        .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
         .build()
 
     @Singleton
     @Provides
-    fun provideRetrofitBuilder(gson: Gson, okHttpClient: OkHttpClient): Retrofit.Builder = Retrofit.Builder()
+    @Named("napi")
+    fun provideNRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+        .baseUrl(UNSPLASH_URL)
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .addConverterFactory(GsonConverterFactory.create(gson))
+        .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
+        .build()
+
+    @Singleton
+    @Provides
+    fun provideRetrofitBuilder(okHttpClient: OkHttpClient): Retrofit.Builder = Retrofit.Builder()
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient)
+
+    @Singleton
+    @Provides
+    fun providePhotoService(@Named("api") retrofit: Retrofit): PhotoService = retrofit.create(PhotoService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideAuthorizeService(@Named("napi") retrofit: Retrofit): AuthorizeService =
+        retrofit.create(AuthorizeService::class.java)
 }
 
 object TLSCompactHelper {
 
-    val okHttpClient: OkHttpClient
-        get() {
-            val builder = OkHttpClient.Builder()
-            builder.connectTimeout(15, TimeUnit.SECONDS)
-                .readTimeout(15, TimeUnit.SECONDS)
-                .writeTimeout(30, TimeUnit.SECONDS)
-                .addInterceptor(
-                    LoggingInterceptor.Builder()
-                        .loggable(BuildConfig.DEBUG)
-                        .tag("LoggingI")
-                        .setLevel(Level.BASIC)
-                        .log(Platform.INFO)
-                        .request("Request")
-                        .response("Response").build()
-                )
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                try {
-                    val sc = SSLContext.getInstance("TLSv1.2")
-                    sc.init(null, null, null)
-                    builder.sslSocketFactory(
-                        Tls12SocketFactory(sc.socketFactory),
-                        Util.platformTrustManager()
-                    )
-
-                    val cs = ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
-                        .tlsVersions(TlsVersion.TLS_1_2)
-                        .build()
-
-                    val specs = ArrayList<ConnectionSpec>()
-                    specs.add(cs)
-                    specs.add(ConnectionSpec.COMPATIBLE_TLS)
-                    specs.add(ConnectionSpec.CLEARTEXT)
-
-                    builder.connectionSpecs(specs)
-                        .followRedirects(true)
-                        .followSslRedirects(true)
-                        .retryOnConnectionFailure(true)
-                        .cache(null)
-                } catch (e: Exception) {
-                    Log.e("OkHttpTLSCompat", "Error while setting TLS 1.2", e)
-                }
-
-            }
-            return builder.build()
-        }
-
-    private class Tls12SocketFactory internal constructor(private val delegate: SSLSocketFactory) : SSLSocketFactory() {
+    class Tls12SocketFactory internal constructor(private val delegate: SSLSocketFactory) : SSLSocketFactory() {
 
         override fun getDefaultCipherSuites(): Array<String> {
             return delegate.defaultCipherSuites

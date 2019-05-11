@@ -11,9 +11,9 @@ import kotlinx.android.parcel.Parcelize
 data class PreviewPhotosItem(
 
     @field:SerializedName("urls")
-    val urls: Urls? = null,
+    var urls: Urls? = null,
 
     @PrimaryKey
     @field:SerializedName("id")
-    var id: String = ""
+    var id: String
 ) : Parcelable

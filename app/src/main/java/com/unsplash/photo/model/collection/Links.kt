@@ -2,40 +2,43 @@ package com.unsplash.photo.model.collection
 
 import android.os.Parcelable
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity
 data class Links(
+    @PrimaryKey(autoGenerate = true)
+    var id: Int,
 
     @field:SerializedName("followers")
-    val followers: String? = null,
+    var followers: String? = null,
 
     @field:SerializedName("portfolio")
-    val portfolio: String? = null,
+    var portfolio: String? = null,
 
     @field:SerializedName("following")
-    val following: String? = null,
+    var following: String? = null,
 
     @field:SerializedName("self")
-    val self: String? = null,
+    var self: String? = null,
 
     @field:SerializedName("html")
-    val html: String? = null,
+    var html: String? = null,
 
     @field:SerializedName("photos")
-    val photos: String? = null,
+    var photos: String? = null,
 
     @field:SerializedName("likes")
-    val likes: String? = null,
+    var likes: String? = null,
 
     @field:SerializedName("related")
-    val related: String? = null,
+    var related: String? = null,
 
     @field:SerializedName("download")
-    val download: String? = null,
+    var download: String? = null,
 
     @field:SerializedName("download_location")
-    val downloadLocation: String? = null
+    var downloadLocation: String? = null
 ) : Parcelable

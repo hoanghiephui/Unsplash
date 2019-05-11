@@ -2,44 +2,70 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:fitsSystemWindows="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
     <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
-            android:fitsSystemWindows="true"
-            android:layout_height="350dp"
-            android:layout_width="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapseActionView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="260dp"
                 app:toolbarId="@+id/toolbar"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
-                app:contentScrim="?attr/colorPrimary">
+                app:contentScrim="?attr/colorPrimary"
+                app:statusBarScrim="?attr/colorPrimary"
+                app:expandedTitleTextAppearance="@style/AppBarExpanded"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
+                android:fitsSystemWindows="true">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/app_bar_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@android:drawable/sym_def_app_icon"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="parallax"
+                    android:scaleType="centerCrop"/>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#80323232"
+                    app:layout_collapseMode="parallax"
+                    android:id="@+id/view"/>
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <com.unsplash.photo.ui.widget.StatusBarView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:sbv_fill_in_mode="true"/>
+
+                <androidx.appcompat.widget.Toolbar
+                        android:id="@+id/toolbar"
+                        android:layout_height="?attr/actionBarSize"
+                        android:layout_width="match_parent"
+                        app:layout_collapseMode="pin">
+                </androidx.appcompat.widget.Toolbar>
+
+            </LinearLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                     android:fitsSystemWindows="true"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:layout_collapseMode="parallax">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/app_bar_image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@android:drawable/sym_def_app_icon"
-                        android:fitsSystemWindows="true"
-                        android:scaleType="centerCrop"/>
-
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="#80323232"
-                        android:id="@+id/view"/>
-
-                <androidx.cardview.widget.CardView
+                <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="55dp"
                         app:cardUseCompatPadding="true"
@@ -49,36 +75,51 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginEnd="8dp"
                         android:id="@+id/cardView"
-                        app:layout_constraintTop_toBottomOf="@+id/textView2"
-                        android:layout_marginTop="4dp">
-                <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginTop="32dp">
 
-                    <androidx.appcompat.widget.AppCompatImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/ic_menu_grey_600_24dp"
-                            android:id="@+id/imageView2"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            android:layout_marginStart="16dp"/>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                    <TextView
-                            android:text="Search photos"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:id="@+id/textView3"
-                            android:gravity="center_vertical"
-                            app:layout_constraintStart_toEndOf="@+id/imageView2"
-                            android:layout_marginStart="8dp"
-                            app:layout_constraintTop_toTopOf="@+id/imageView2"
-                            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            android:layout_marginEnd="8dp"/>
-                </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.cardview.widget.CardView>
+                        <androidx.appcompat.widget.AppCompatImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_menu_grey_600_24dp"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:id="@+id/imageView2"
+                                android:padding="3dp"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:layout_marginStart="16dp"/>
+
+                        <TextView
+                                android:text="Search photos"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:id="@+id/textView3"
+                                android:gravity="center_vertical"
+                                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                                android:layout_marginStart="8dp"
+                                app:layout_constraintTop_toTopOf="@+id/imageView2"
+                                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+                                android:layout_marginEnd="8dp"
+                                app:layout_constraintEnd_toStartOf="@+id/btnMore"/>
+
+                        <androidx.appcompat.widget.AppCompatImageButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                app:srcCompat="@drawable/ic_more_vert_grey_700_24dp"
+                                android:id="@+id/btnMore"
+                                android:padding="3dp"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:background="?attr/selectableItemBackgroundBorderless"
+                                android:layout_marginEnd="8dp"/>
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <TextView
                         android:text="TextView"
@@ -86,51 +127,148 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/tvTag"
                         app:layout_constraintStart_toStartOf="@+id/cardView"
-                        android:layout_marginTop="8dp"
                         android:textColor="@android:color/white"
                         app:layout_constraintTop_toBottomOf="@+id/cardView"
                         android:layout_marginStart="3dp"/>
 
-                <TextView
-                        android:text="Unsplash"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView"
-                        android:textColor="@android:color/white"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:textAllCaps="true"
-                        app:layout_constraintStart_toStartOf="@+id/cardView"
-                        android:layout_marginStart="3dp"
-                        android:layout_marginTop="32dp"
-                        app:layout_constraintTop_toTopOf="@+id/view"/>
-
-                <TextView
-                        android:text="Beautiful, free photos.\nGifted by the world’s most generous community of photographers. 🎁"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/textView2"
-                        android:textColor="@android:color/white"
-                        app:layout_constraintTop_toBottomOf="@+id/textView"
-                        app:layout_constraintStart_toStartOf="@+id/textView"
-                        app:layout_constraintEnd_toEndOf="@+id/cardView"
-                        android:layout_marginEnd="3dp"
-                        android:layout_marginTop="8dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.appcompat.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_width="match_parent">
-            </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swRefresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!--<androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:clipChildren="false"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <TextView
+                    android:text="Featured Colections"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewColection"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:visibility="gone"
+                    android:layout_marginTop="8dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                    android:text="@string/latest"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnLatest"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_marginStart="8dp"
+                    android:textAllCaps="false"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewColection"
+                    android:textColor="@color/colorGray"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintEnd_toStartOf="@+id/btnOldest"
+                    android:layout_marginEnd="2dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                    android:text="@string/oldest"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnOldest"
+                    android:textAllCaps="false"
+                    android:gravity="center"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewColection"
+                    android:textColor="@color/colorGray"
+                    android:textSize="12sp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/btnLatest"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintEnd_toStartOf="@+id/btnPopular"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                    android:text="@string/popular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnPopular"
+                    android:textAllCaps="false"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewColection"
+                    android:textColor="@color/colorGray"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintStart_toEndOf="@+id/btnOldest"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintEnd_toStartOf="@+id/btnRandom"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="2dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                    android:text="@string/random"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/btnRandom"
+                    android:textAllCaps="false"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewColection"
+                    android:textColor="@color/colorGray"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginBottom="8dp"
+                    app:layout_constraintVertical_bias="0.0"
+                    android:layout_marginEnd="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/btnPopular"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    android:layout_marginStart="2dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintTop_toBottomOf="@+id/btnLatest"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>-->
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

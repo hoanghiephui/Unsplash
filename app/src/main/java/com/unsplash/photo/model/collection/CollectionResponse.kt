@@ -11,48 +11,48 @@ import kotlinx.android.parcel.Parcelize
 data class CollectionResponse(
 
     @field:SerializedName("featured")
-    val featured: Boolean? = null,
+    var featured: Boolean? = null,
 
     @field:SerializedName("private")
-    val jsonMemberPrivate: Boolean? = null,
+    var jsonMemberPrivate: Boolean? = null,
 
     @field:SerializedName("cover_photo")
-    val coverPhoto: CoverPhoto? = null,
+    var coverPhoto: CoverPhoto? = null,
 
     @field:SerializedName("total_photos")
-    val totalPhotos: Int? = null,
+    var totalPhotos: Int? = null,
 
     @field:SerializedName("share_key")
-    val shareKey: String? = null,
+    var shareKey: String? = null,
 
     @field:SerializedName("description")
-    val description: String? = null,
+    var description: String? = null,
 
     @field:SerializedName("title")
-    val title: String? = null,
+    var title: String? = null,
 
     @field:SerializedName("tags")
-    val tags: List<TagsItem>? = null,
+    var tags: List<TagsItem>? = null,
 
     @field:SerializedName("preview_photos")
-    val previewPhotos: List<PreviewPhotosItem>? = null,
+    var previewPhotos: List<PreviewPhotosItem>? = null,
 
     @field:SerializedName("updated_at")
-    val updatedAt: String? = null,
+    var updatedAt: String? = null,
 
     @field:SerializedName("curated")
-    val curated: Boolean? = null,
+    var curated: Boolean? = null,
 
     @field:SerializedName("links")
-    val links: Links? = null,
+    var links: Links? = null,
 
     @PrimaryKey
     @field:SerializedName("id")
-    val id: Int? = null,
+    var id: Int? = null,
 
     @field:SerializedName("published_at")
-    val publishedAt: String? = null,
+    var publishedAt: String? = null,
 
     @field:SerializedName("user")
-    val user: User? = null
+    var user: User? = null
 ) : Parcelable

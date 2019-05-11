@@ -9,15 +9,16 @@ import kotlinx.android.parcel.Parcelize
 @Entity
 data class Category(
     @PrimaryKey
-    val id: Int?,
-    val title: String?,
-    val photo_count: Int?,
-    val links: CategoryLinks?
+    var id: Int?,
+    var title: String?,
+    var photo_count: Int?,
+    var links: CategoryLinks?
 ) : Parcelable
 
 @Parcelize
 @Entity
 data class CategoryLinks(
-    val self: String?,
-    val photos: String
+    @PrimaryKey
+    var self: String = "",
+    var photos: String
 ) : Parcelable

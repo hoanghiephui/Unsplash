@@ -2,6 +2,9 @@ package com.unsplash.photo.extensions
 
 import android.graphics.Color
 import android.text.format.DateUtils
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import java.text.SimpleDateFormat
 import java.util.*
@@ -56,4 +59,16 @@ fun getLastWeekDate(): String {
 fun Int.generateTextColor(): Int {
     val a = 1 - (0.299 * Color.red(this) + 0.587 * Color.green(this) + 0.114 * Color.blue(this)) / 255
     return if (a < 0.5) Color.BLACK else Color.WHITE
+}
+
+/**
+ * Allows a [ViewGroup] to inflate itself without all of the unneeded ceremony of getting a
+ * [LayoutInflater] and always passing the [ViewGroup] + false. True can optionally be passed if
+ * needed.
+ *
+ * @param layoutId The layout ID as an [Int]
+ * @return The inflated [View]
+ */
+fun ViewGroup.inflate(layoutId: Int, attachToRoot: Boolean = false): View {
+    return LayoutInflater.from(context).inflate(layoutId, this, attachToRoot)
 }

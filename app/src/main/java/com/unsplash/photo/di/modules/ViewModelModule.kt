@@ -3,9 +3,7 @@ package com.unsplash.photo.di.modules
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.unsplash.photo.di.annotations.ViewModelKey
-import com.unsplash.photo.viewmodels.HomeViewModel
-import com.unsplash.photo.viewmodels.SplashViewModel
-import com.unsplash.photo.viewmodels.ViewModelFactory
+import com.unsplash.photo.viewmodels.*
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -24,4 +22,14 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SplashViewModel::class)
     abstract fun bindSplashViewModel(viewModel: SplashViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditorialViewModel::class)
+    abstract fun bindEditorialViewModel(viewModel: EditorialViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoginViewModel::class)
+    abstract fun bindLoginViewModel(viewModel: LoginViewModel): ViewModel
 }

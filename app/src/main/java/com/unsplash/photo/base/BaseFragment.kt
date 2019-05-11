@@ -27,4 +27,8 @@ abstract class BaseFragment : DaggerFragment() {
         super.onViewCreated(view, savedInstanceState)
         onFragmentCreated(view, savedInstanceState)
     }
+
+    fun baseActivity(): BaseActivity {
+        return requireActivity() as BaseActivity
+    }
 }

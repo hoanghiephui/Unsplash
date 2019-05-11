@@ -1,17 +1,20 @@
 package com.unsplash.photo.base
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.lifecycle.ViewModelProvider
+import com.unsplash.photo.UnsplashApp.Companion.AUTHEN
 import dagger.android.AndroidInjection
 import dagger.android.support.DaggerAppCompatActivity
-import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.network_state_item.*
 import javax.inject.Inject
 
 abstract class BaseActivity : DaggerAppCompatActivity() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private var disposal = CompositeDisposable()
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     @LayoutRes
     abstract fun layoutRes(): Int
@@ -24,6 +27,10 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
         val layoutRes = layoutRes()
         if (layoutRes > 0) setContentView(layoutRes)
         onActivityCreated(savedInstanceState)
+    }
+
+    fun isAuthorized(): Boolean {
+        return sharedPreferences.getBoolean(AUTHEN, false)
     }
 
 }
