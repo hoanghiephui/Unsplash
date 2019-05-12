@@ -37,8 +37,8 @@ class HomeFragment : BaseFragment() {
             }
             listFragment.apply {
                 add(DashboardFragment.newInstance(splashBundle, login))
-                add(ColectionsFragment())
-                add(ColectionsFragment())
+                add(CollectionsFragment())
+                add(CollectionsFragment())
             }
         }
         viewPage.apply {

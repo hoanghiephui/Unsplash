@@ -20,4 +20,5 @@
     <string name="editorial">Editorial</string>
     <string name="login">Login</string>
     <string name="welcome">Welcome back.</string>
+    <string name="add_to_collections">Add to collections</string>
 </resources>

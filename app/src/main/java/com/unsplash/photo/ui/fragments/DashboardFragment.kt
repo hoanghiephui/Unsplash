@@ -1,6 +1,5 @@
 package com.unsplash.photo.ui.fragments
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -28,7 +27,6 @@ import com.unsplash.photo.ui.widget.TopLinearLayoutManager
 import com.unsplash.photo.usecase.SplashUseCase
 import com.unsplash.photo.viewmodels.EditorialViewModel
 import kotlinx.android.synthetic.main.fragment_dashboard.*
-import java.util.*
 
 
 class DashboardFragment : BaseFragment() {
@@ -49,7 +47,12 @@ class DashboardFragment : BaseFragment() {
         }, onDownload = {
 
         }, onAddToColections = {
-
+            if (baseActivity().isAuthorized()) {
+                AddCollectionFragment.newInstance(baseActivity().supportFragmentManager)
+            } else {
+                startActivity(Intent(requireContext(), LoginActivity::class.java))
+                baseActivity().overridePendingTransition(R.anim.activity_slide_in, R.anim.none)
+            }
         }, onLike = { photo, positions ->
             if (baseActivity().isAuthorized()) {
                 SparseArray<Any>().apply {
@@ -81,6 +84,21 @@ class DashboardFragment : BaseFragment() {
             adapter = this@DashboardFragment.adapter
         }
         initSwipeToRefresh()
+        listenViewModel()
+
+        appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
+            //  Vertical offset == 0 indicates appBar is fully expanded.
+            tvTag.isVisible = Math.abs(verticalOffset) <= 200
+            (requireActivity() as MainActivity).viewModel.scrollLiveData.postValue(Math.abs(verticalOffset) <= 200)
+        })
+        collapseActionView.setOnClickListener {
+            recyclerView.smoothScrollToPosition(0)
+        }
+
+        initMenu()
+    }
+
+    private fun listenViewModel() {
         val login = arguments?.getBoolean("login")
         if (login == true) {
             Handler().postDelayed({
@@ -104,18 +122,10 @@ class DashboardFragment : BaseFragment() {
             viewModel.currentPhoto()?.let { it1 -> viewModel.onUpdatePhotoToDb(it1) }
         }
         viewModel.networkLikeState.observeNotNull(viewLifecycleOwner) {
-
         }
+    }
 
-        appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { _, verticalOffset ->
-            //  Vertical offset == 0 indicates appBar is fully expanded.
-            tvTag.isVisible = Math.abs(verticalOffset) <= 200
-            (requireActivity() as MainActivity).viewModel.scrollLiveData.postValue(Math.abs(verticalOffset) <= 200)
-        })
-        collapseActionView.setOnClickListener {
-            recyclerView.smoothScrollToPosition(0)
-        }
-
+    private fun initMenu() {
         btnMore.setOnClickListener {
             PopupMenu(requireContext(), it).apply {
                 inflate(R.menu.menu_editorial)
